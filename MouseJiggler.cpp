@@ -1,44 +1,52 @@
+#include "MouseJiggler.h"
+
+#include <Adafruit_NeoPixel.h>
 #include <Mouse.h>
 
-#include "StatusLed.cpp"
-#include "const.h"
+const Adafruit_NeoPixel NEO_PIXEL;
 
-class MouseJiggler {
-   private:
-    const StatusLed _LED;
+MouseJiggler::MouseJiggler() {}
 
-    // Time calculation
-    static const unsigned long _TIME_TO_WAIT_FOR_MOUSE_MOVEMENT =
-        (unsigned long)59 * _SECOND;
+void MouseJiggler::startUp(int rgbLedNumber, int neoPixelPin, int ledPin) {
+    NEO_PIXEL =
+        Adafruit_NeoPixel(rgbLedNumber, neoPixelPin, NEO_RGB + NEO_KHZ800);
+    NEO_PIXEL.begin();
+    MouseJiggler::turnOnTheStartUp();
+    pinMode(ledPin, OUTPUT);
+    delay(1000);
+    MouseJiggler::turnOnThePower();
+    delay(1000);
+    Mouse.begin();
+}
 
-    // Mouse settings
-    static const int _MOVE_X_AXIS = 3;
-    static const int _RETURN_X_AXIS = -_MOVE_X_AXIS;
-    static const int _MOVE_Y_AXIS = 0;
-    static const int _RETURN_Y_AXIS = -_MOVE_Y_AXIS;
+void MouseJiggler::turnOnTheLed(int brightness, int red, int green, int blue) {
+    NEO_PIXEL.clear();
+    NEO_PIXEL.setBrightness(brightness);
+    NEO_PIXEL.setPixelColor(0, red, green, blue);
+    NEO_PIXEL.show();
+}
 
-    const int _LED_PIN = 13;
+void MouseJiggler::turnOnTheStartUp() {
+    MouseJiggler::turnOnTheLed(MouseJiggler::BASE_BRIGHTNESS, 255,
+                               MouseJiggler::NO_COLOR, MouseJiggler::NO_COLOR);
+}
 
-   public:
-    MouseJiggler() : _LED(StatusLed()) {}
+void MouseJiggler::turnOnThePower() {
+    MouseJiggler::turnOnTheLed(MouseJiggler::BASE_BRIGHTNESS,
+                               MouseJiggler::NO_COLOR, MouseJiggler::NO_COLOR,
+                               255);
+}
 
-    void startUp() {
-        _LED.begin();
-        _LED.turnOnTheStartUp();
-        pinMode(_LED_PIN, OUTPUT);
-        delay(1 * _SECOND);
-        _LED.turnOnThePower();
-        delay(1 * _SECOND);
-        Mouse.begin();
-    }
+void MouseJiggler::turnOnTheProc() {
+    MouseJiggler::turnOnTheLed(MouseJiggler::BASE_BRIGHTNESS,
+                               MouseJiggler::NO_COLOR, 255,
+                               MouseJiggler::NO_COLOR);
+}
 
-    void move() {
-        _LED.turnOnTheProc();
-        Mouse.move(_MOVE_X_AXIS, _MOVE_Y_AXIS);
-        delay(0.2 * _SECOND);
-        Mouse.move(_RETURN_X_AXIS, _RETURN_Y_AXIS);
-        _LED.turnOnThePower();
-    }
-
-    void wait() { delay(_TIME_TO_WAIT_FOR_MOUSE_MOVEMENT); }
-};
+void MouseJiggler::moveJiggle() {
+    MouseJiggler::turnOnTheProc();
+    Mouse.move(MouseJiggler::MOVE_X_AXIS, MouseJiggler::MOVE_Y_AXIS);
+    delay(200);
+    Mouse.move(MouseJiggler::RETURN_X_AXIS, MouseJiggler::RETURN_Y_AXIS);
+    MouseJiggler::turnOnThePower();
+}
