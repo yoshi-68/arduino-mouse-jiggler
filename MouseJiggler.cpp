@@ -5,20 +5,6 @@
 
 const Adafruit_NeoPixel NEO_PIXEL;
 
-MouseJiggler::MouseJiggler() {}
-
-void MouseJiggler::startUp(int rgbLedNumber, int neoPixelPin, int ledPin) {
-    NEO_PIXEL =
-        Adafruit_NeoPixel(rgbLedNumber, neoPixelPin, NEO_RGB + NEO_KHZ800);
-    NEO_PIXEL.begin();
-    MouseJiggler::turnOnTheStartUp();
-    pinMode(ledPin, OUTPUT);
-    delay(1000);
-    MouseJiggler::turnOnThePower();
-    delay(1000);
-    Mouse.begin();
-}
-
 void MouseJiggler::turnOnTheLed(int brightness, int red, int green, int blue) {
     NEO_PIXEL.clear();
     NEO_PIXEL.setBrightness(brightness);
@@ -41,6 +27,20 @@ void MouseJiggler::turnOnTheProc() {
     MouseJiggler::turnOnTheLed(MouseJiggler::BASE_BRIGHTNESS,
                                MouseJiggler::NO_COLOR, 255,
                                MouseJiggler::NO_COLOR);
+}
+
+MouseJiggler::MouseJiggler() {}
+
+void MouseJiggler::startUp(int rgbLedNumber, int neoPixelPin, int ledPin) {
+    NEO_PIXEL =
+        Adafruit_NeoPixel(rgbLedNumber, neoPixelPin, NEO_RGB + NEO_KHZ800);
+    NEO_PIXEL.begin();
+    MouseJiggler::turnOnTheStartUp();
+    pinMode(ledPin, OUTPUT);
+    delay(1000);
+    MouseJiggler::turnOnThePower();
+    delay(1000);
+    Mouse.begin();
 }
 
 void MouseJiggler::moveJiggle() {

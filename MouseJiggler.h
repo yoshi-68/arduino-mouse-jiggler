@@ -8,6 +8,7 @@ class MouseJiggler {
     static const int RETURN_Y_AXIS = -MOVE_Y_AXIS;
     static const int NO_COLOR = 0;
     static const int BASE_BRIGHTNESS = 10;
+
     void turnOnTheLed(int brightness, int red, int green, int blue);
     void turnOnTheStartUp();
     void turnOnThePower();
