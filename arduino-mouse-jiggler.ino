@@ -11,7 +11,7 @@ const int RGB_LED_NUMBER = 1;
 const int NEOPIXEL_PIN = 4;
 const int LED_PIN = 13;
 
-void setup() { JIGGLER.startUp(RGB_LED_NUMBER, NEOPIXEL_PIN, LED_PIN); }
+void setup() { JIGGLER.bigin(RGB_LED_NUMBER, NEOPIXEL_PIN, LED_PIN); }
 
 void loop() {
     JIGGLER.moveJiggle();

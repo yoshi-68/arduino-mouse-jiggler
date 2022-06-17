@@ -16,6 +16,6 @@ class MouseJiggler {
 
    public:
     MouseJiggler();
-    void startUp(int rgbLedNumber, int neoPixelPin, int ledPin);
+    void bigin(int rgbLedNumber, int neoPixelPin, int ledPin);
     void moveJiggle();
 };

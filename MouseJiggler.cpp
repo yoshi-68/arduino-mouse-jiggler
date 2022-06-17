@@ -26,7 +26,7 @@ void MouseJiggler::turnOnTheProc() {
 
 MouseJiggler::MouseJiggler() {}
 
-void MouseJiggler::startUp(int rgbLedNumber, int neoPixelPin, int ledPin) {
+void MouseJiggler::bigin(int rgbLedNumber, int neoPixelPin, int ledPin) {
     NEO_PIXEL =
         Adafruit_NeoPixel(rgbLedNumber, neoPixelPin, NEO_RGB + NEO_KHZ800);
     NEO_PIXEL.begin();
